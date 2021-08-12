@@ -1,4 +1,4 @@
-# Supervised Learning (nd229-1)
+# Supervised Learning (cd0025)
 
  Content for Udacity's Supervised Learning curriculum, which includes project starter files.
 
