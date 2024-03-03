@@ -17,6 +17,8 @@ from time import time
 from sklearn.metrics import f1_score, accuracy_score
 
 
+colors = [pl.cm.Paired(i) for i in range(12)]
+
 def distribution(data, transformed = False):
     """
     Visualization code for displaying skewed distributions of features
@@ -28,8 +30,8 @@ def distribution(data, transformed = False):
     # Skewed feature plotting
     for i, feature in enumerate(['capital-gain','capital-loss']):
         ax = fig.add_subplot(1, 2, i+1)
-        ax.hist(data[feature], bins = 25, color = '#00A0A0')
-        ax.set_title("'%s' Feature Distribution"%(feature), fontsize = 14)
+        ax.hist(data[feature], bins = 25, color = colors[0])
+        ax.set_title(f"'{feature}' Feature Distribution", fontsize = 14)
         ax.set_xlabel("Value")
         ax.set_ylabel("Number of Records")
         ax.set_ylim((0, 2000))
@@ -64,8 +66,7 @@ def evaluate(results, accuracy, f1):
 
     # Constants
     bar_width = 0.3
-    colors = ['#A00000','#00A0A0','#00A000']
-    
+
     # Super loop to plot four panels of data
     for k, learner in enumerate(results.keys()):
         for j, metric in enumerate(['train_time', 'acc_train', 'f_train', 'pred_time', 'acc_test', 'f_test']):
@@ -130,17 +131,17 @@ def feature_plot(importances, X_train, y_train):
     values = importances[indices][:5]
 
     # Creat the plot
-    fig = pl.figure(figsize = (9,5))
+    fig = pl.figure(figsize = (9, 5))
     pl.title("Normalized Weights for First Five Most Predictive Features", fontsize = 16)
-    pl.bar(np.arange(5), values, width = 0.6, align="center", color = '#00A000', \
+    pl.bar(np.arange(5) - 0.1, values, width = 0.2, align="center", color=colors[0], \
           label = "Feature Weight")
-    pl.bar(np.arange(5) - 0.3, np.cumsum(values), width = 0.2, align = "center", color = '#00A0A0', \
+    pl.bar(np.arange(5) + 0.1, np.cumsum(values), width = 0.2, align = "center", color=colors[1], \
           label = "Cumulative Feature Weight")
-    pl.xticks(np.arange(5), columns)
+    pl.xticks(np.arange(5), columns, rotation=20)
     pl.xlim((-0.5, 4.5))
     pl.ylabel("Weight", fontsize = 12)
     pl.xlabel("Feature", fontsize = 12)
     
-    pl.legend(loc = 'upper center')
+    pl.legend()
     pl.tight_layout()
     pl.show()  
